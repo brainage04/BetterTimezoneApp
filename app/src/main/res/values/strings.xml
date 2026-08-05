@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BetterTimezone</string>
+    <string name="smart_tap_service_description">BetterTimezone Powercard presentation</string>
+    <string name="smart_tap_aid_group_description">Timezone Powercards</string>
+</resources>
