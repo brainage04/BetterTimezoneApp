@@ -5,7 +5,6 @@ import android.security.keystore.KeyProperties
 import android.util.Base64
 import java.nio.charset.StandardCharsets
 import java.security.KeyStore
-import java.security.SecureRandom
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
@@ -23,12 +22,12 @@ internal object SecureStorage {
     private const val TAG_LENGTH_BITS = 128
 
     private val keyLock = Any()
-    private val secureRandom = SecureRandom()
 
     fun encrypt(alias: String, plaintext: String): String {
-        val iv = ByteArray(IV_LENGTH_BYTES).also(secureRandom::nextBytes)
         val cipher = Cipher.getInstance(TRANSFORMATION)
-        cipher.init(Cipher.ENCRYPT_MODE, key(alias), GCMParameterSpec(TAG_LENGTH_BITS, iv))
+        cipher.init(Cipher.ENCRYPT_MODE, key(alias))
+        val iv = cipher.iv
+        require(iv.size == IV_LENGTH_BYTES) { "Unexpected Android Keystore GCM IV length" }
         cipher.updateAAD(aad(alias))
         val ciphertext = cipher.doFinal(plaintext.toByteArray(StandardCharsets.UTF_8))
         return listOf(
