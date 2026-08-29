@@ -171,10 +171,10 @@ object ReminderNotifier {
     private const val CHANNEL_PREFIX = "venue-top-up-"
     private const val NOTIFICATION_ID = 7101
 
-    fun dueCards(snapshot: AppSnapshot, today: LocalDate): List<Powercard> = snapshot.cards.filter { card ->
-        card.detailsVerified &&
-            !today.isBefore(card.recommendedTopUpDate(snapshot.settings.reminderLeadDays))
-    }
+    fun dueCards(snapshot: AppSnapshot, today: LocalDate): List<Powercard> =
+        snapshot.cards.filter { card ->
+            card.topUpIsDue(today, snapshot.settings.reminderLeadDays)
+        }
 
     fun notifyIfDue(context: Context, forceTest: Boolean = false): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && ActivityCompat.checkSelfPermission(
@@ -223,7 +223,7 @@ object ReminderNotifier {
             "${due.size} $cardLabel need a $1+ in-venue reload."
         }
         val notification = NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(io.github.brainage04.bettertimezoneapp.R.drawable.ic_launcher)
+            .setSmallIcon(io.github.brainage04.bettertimezoneapp.R.drawable.ic_notification)
             .setContentTitle(title)
             .setContentText(content)
             .setStyle(NotificationCompat.BigTextStyle().bigText(content))

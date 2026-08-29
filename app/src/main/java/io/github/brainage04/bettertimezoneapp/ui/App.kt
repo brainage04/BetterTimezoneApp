@@ -798,7 +798,7 @@ private fun PresentPowercardDialog(
                 Text(nfcStatus(nfcAdapter), fontWeight = FontWeight.SemiBold)
                 Text(
                     if (hceActive) {
-                        "Experimental Smart Tap is armed for ${card.smartTapRedemptionValue}. Keep this dialog open and the phone unlocked while tapping."
+                        "Experimental Smart Tap is armed for Powercard ${card.number}. Keep this dialog open and the phone unlocked while tapping."
                     } else {
                         "Direct NFC presentation could not be activated. Use the barcode or check that NFC is on."
                     },
@@ -814,7 +814,7 @@ private fun PresentPowercardDialog(
                         )
                     }
                 Text(
-                    "This mode implements the Smart Tap reader exchange directly and sends the selected card's 10-digit barcode value. It is not issued or approved by Timezone or Google; keep the barcode and Wallet actions available as fallbacks.",
+                    "This mode implements the Smart Tap reader exchange directly and sends the selected Powercard number as its loyalty identifier. It is not issued or approved by Timezone or Google; keep the barcode and Wallet actions available as fallbacks.",
                     style = MaterialTheme.typography.bodySmall,
                 )
                 onAcceptedAndNext?.let { advance ->
@@ -941,7 +941,7 @@ private fun SettingsScreen(
         Text("NFC & presentation", style = MaterialTheme.typography.titleLarge)
         Text(nfcStatus(nfcAdapter), fontWeight = FontWeight.SemiBold)
         Text(
-            "Present opens an experimental direct Smart Tap session for the selected Powercard while its dialog stays open. It sends the card's 10-digit barcode value through Android HCE without changing Google Wallet. This reverse-engineered path is not Timezone-approved; keep the barcode and Wallet actions available as fallbacks.",
+            "Present opens an experimental direct Smart Tap session for the selected Powercard while its dialog stays open. It sends the Powercard number as the loyalty identifier through Android HCE without changing Google Wallet. This reverse-engineered path is not Timezone-approved; keep the barcode and Wallet actions available as fallbacks.",
             style = MaterialTheme.typography.bodySmall,
         )
         OutlinedButton(

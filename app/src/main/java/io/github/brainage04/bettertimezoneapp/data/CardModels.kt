@@ -28,8 +28,10 @@ data class Powercard(
             !today.isBefore(lastQualifyingReload.plusDays(1)) &&
             !today.isAfter(benefitExpiryDate())
 
-    val smartTapRedemptionValue: String
-        get() = barcodeValue.substringBefore('*')
+    fun topUpIsDue(today: LocalDate, leadDays: Int): Boolean =
+        detailsVerified &&
+            !today.isBefore(recommendedTopUpDate(leadDays)) &&
+            !today.isAfter(benefitExpiryDate())
 
     companion object {
         const val BENEFIT_WINDOW_DAYS = 92L

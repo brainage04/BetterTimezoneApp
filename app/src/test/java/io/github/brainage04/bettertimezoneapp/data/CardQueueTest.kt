@@ -113,6 +113,25 @@ class CardQueueTest {
     }
 
     @Test
+    fun topUpIsDueOnlyWhileActiveBenefitWindowNeedsMaintenance() {
+        val card = card(
+            number = "100",
+            tier = CardTier.GOLD,
+            balanceCents = 100,
+            order = 0,
+            lastReload = LocalDate.of(2026, 5, 25),
+        )
+
+        assertFalse(card.topUpIsDue(LocalDate.of(2026, 8, 17), 7))
+        assertTrue(card.topUpIsDue(LocalDate.of(2026, 8, 18), 7))
+        assertTrue(card.topUpIsDue(LocalDate.of(2026, 8, 25), 7))
+        assertFalse(card.topUpIsDue(LocalDate.of(2026, 8, 26), 7))
+        assertFalse(
+            card.copy(detailsVerified = false).topUpIsDue(LocalDate.of(2026, 8, 18), 7),
+        )
+    }
+
+    @Test
     fun defaultSnapshotContainsNoShippedCardValues() {
         val snapshot = CardStore.defaultSnapshot(today)
 
@@ -144,7 +163,7 @@ class CardQueueTest {
 
         assertEquals(1, cards.size)
         assertEquals("123456789", cards.single().number)
-        assertEquals("0123456789", cards.single().smartTapRedemptionValue)
+        assertEquals("0123456789*123", cards.single().barcodeValue)
         assertEquals(CardTier.GOLD, cards.single().tier)
     }
 

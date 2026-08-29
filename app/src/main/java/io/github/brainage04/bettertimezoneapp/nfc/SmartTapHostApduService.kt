@@ -17,7 +17,7 @@ class SmartTapHostApduService : HostApduService() {
         val kind = SmartTapProtocol.commandKind(commandApdu)
         if (SmartTapProtocol.isSupportedSelect(commandApdu) && protocol == null) {
             activeCard = selectCard()
-            protocol = SmartTapProtocol(activeCard?.smartTapRedemptionValue)
+            protocol = SmartTapProtocol(activeCard?.number)
             sentCardData = false
             publishStatus(
                 activeCard,

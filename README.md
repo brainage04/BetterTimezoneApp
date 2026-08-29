@@ -54,7 +54,7 @@ The queue normalizes state when the date changes. Daily free-game usage and the 
 
 ## NFC presentation
 
-The Present flow displays the exact stored barcode value and can arm the app's HostApduService while the presentation dialog remains open. The Smart Tap implementation handles the OSE and Smart Tap application selections, session negotiation, encrypted service data, and push-data responses.
+The Present flow displays the exact stored barcode value and can arm the app's `HostApduService` while the presentation dialog remains open. The Smart Tap implementation handles the OSE and Smart Tap application selections, session negotiation, encrypted service data, and push-data responses. Direct presentation uses the selected Powercard number as the loyalty identifier.
 
 The service requires an unlocked device. The app labels direct Smart Tap presentation as experimental and not issued or approved by Timezone or Google. The barcode and the official app/Wallet actions remain available as alternatives.
 
@@ -64,8 +64,8 @@ Reminders are disabled by default. When enabled, the app can:
 
 - Register an enter geofence for the selected venue.
 - Run a WorkManager check every six hours when the device is not low on battery.
-- Check whether verified cards have reached their recommended top-up date.
-- Post one notification per day when a due card is detected near the venue.
+- Check whether verified cards are inside their configured pre-expiry top-up window.
+- Post one notification per day near the venue while at least one active daily benefit window needs maintenance. Expired cards do not keep producing notifications.
 
 Android may require foreground location, background location, and notification permissions. The default venue is Kingpin Chermside, but its name, coordinates, radius, lead time, and funded-card threshold are editable in Settings.
 
@@ -139,6 +139,6 @@ Unit tests cover:
 - Benefit expiry and top-up dates.
 - Unverified and low-balance card handling.
 - The empty, unprovisioned default state.
-- Smart Tap secure negotiation and card-value delivery.
+- Smart Tap secure negotiation and Powercard-number delivery.
 
 The project does not require a network service to run.
